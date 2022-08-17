@@ -89,7 +89,7 @@ namespace eTickets.Data
                         new Actor()
                         {
                             FullName = "Will Smith",
-                            Bio = "Born September 25, 1968, also known by his stage name The Fresh Prince, is an American actor, rapper, and producer.",
+                            Bio = "Born September 25, 1968. An American actor, rapper, and producer.",
                             ProfilePictureURL = "http://dotnethow.net/images/actors/actor-5.jpeg"
                         }
                     });

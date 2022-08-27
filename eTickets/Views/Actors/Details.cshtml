@@ -1,7 +1,7 @@
 ﻿@model Actor
 
 @{
-    ViewData["Title"] = "Add a new actor";
+    ViewData["Title"] = "Details of the actor";
 }
 
 <div class="row text">
@@ -42,7 +42,7 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            var.output = document.getElementById('ProfilePicturePreview');
+            var output = document.getElementById('ProfilePicturePreview');
             output.src = $("#ProfilePictureURL").val();
         })
     </script>

@@ -12,7 +12,6 @@ namespace eTickets.Models
     public class NewMovieVM
     {
         public int Id { get; set; }
-
         [Display(Name = "Movie name")]
         [Required(ErrorMessage ="Name is required")]
         public string Name { get; set; }
@@ -52,7 +51,7 @@ namespace eTickets.Models
         public int CinemaId { get; set; }
 
         //Producer
-        [Display(Name = "Select producer")]
+        [Display(Name = "Select a producer")]
         [Required(ErrorMessage = "Movie producer is required")]
         public int ProducerId { get; set; }
     }

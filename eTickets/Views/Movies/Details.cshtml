@@ -27,7 +27,7 @@
                             <b>Cinema: </b>
                             <a asp-controller="Cinemas" asp-action="Details" asp-route-id="@Model.CinemaId">
                                 @Model.Cinema.Name
-                            </a>
+                            </a> 
                         </p>
                         <p class="card-text">
                             <b>Producer: </b>
@@ -76,7 +76,7 @@
                             <a class="btn btn-outline-primary float-right" asp-action="Index">
                                     Back to List
                                 </a>
-                            <a class="btn btn-success text-white"><i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")))</a>
+                            <a class="btn btn-success text-white"><i class="bi bi-cart-plus" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id"></i> Add to Cart (Price @Model.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")))</a>
                         </p>
                     </div>
                 </div>

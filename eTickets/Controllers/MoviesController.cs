@@ -25,6 +25,19 @@ namespace eTickets.Controllers
             return View(allMovies);
         }
 
+        public async Task<IActionResult> Filter(string searchString)
+        {
+            var allMovies = await _service.GetAllAsync(n => n.Cinema);
+
+            if(!string.IsNullOrEmpty(searchString))
+            {
+                var filteredResult = allMovies.Where(n => n.Name.Contains(searchString) || n.Description.Contains(searchString)).ToList();
+                return View("Index", filteredResult);
+            }
+
+            return View("Index", allMovies);
+        }
+
         //GET: Movies/Details/1
         public async Task<IActionResult> Details(int id)
         {
@@ -49,13 +62,15 @@ namespace eTickets.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(NewMovieVM movie)
         {
-            if (!ModelState.IsValid) return View(movie);
+            if (!ModelState.IsValid) 
             {
                 var movieDropdownsData = await _service.GetNewMovieDropdownsValues();
 
                 ViewBag.Cinemas = new SelectList(movieDropdownsData.Cinemas, "Id", "Name");
                 ViewBag.Producers = new SelectList(movieDropdownsData.Producers, "Id", "FullName");
                 ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "Id", "FullName");
+
+                return View(movie);
             }
 
             await _service.AddNewMovieAsync(movie);
@@ -89,7 +104,7 @@ namespace eTickets.Controllers
             ViewBag.Producers = new SelectList(movieDropdownsData.Producers, "Id", "FullName");
             ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "Id", "FullName");
 
-            return View();
+            return View(response);
         }
 
         [HttpPost]

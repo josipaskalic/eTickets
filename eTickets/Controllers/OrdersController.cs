@@ -17,10 +17,19 @@ namespace eTickets.Controllers
     {
         private readonly IMoviesService _service;
         private readonly ShoppingCart _shoppingCart;
-        public OrdersController(IMoviesService service, ShoppingCart shoppingCart)
+        private readonly IOrdersService _ordersService;
+        public OrdersController(IMoviesService service, ShoppingCart shoppingCart, IOrdersService ordersService)
         {
             _service = service;
-            _shoppingCart = shoppingCart; 
+            _shoppingCart = shoppingCart;
+            _ordersService = ordersService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            string userId = "";
+            var allOrders = await _ordersService.GetOrdersByUserIdAsync(userId);
+            return View(allOrders);
         }
         public IActionResult ShoppingCart()
         {
@@ -53,6 +62,18 @@ namespace eTickets.Controllers
                 _shoppingCart.RemoveItemFromCart(item);
             }
             return RedirectToAction(nameof(ShoppingCart));
+        }
+
+        public async Task<IActionResult> CompleteOrder()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            string UserId = "";
+            string Email = "";
+
+            await _ordersService.StoreOrderAsync(items, UserId, Email);
+            await _shoppingCart.ClearShoppingCartAsync();
+
+            return View("OrderCompleted");
         }
     }
 }

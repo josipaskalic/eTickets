@@ -70,16 +70,16 @@ namespace eTickets.Data.Cart
             _context.SaveChanges();
         }
 
-        //get all the shopping cart items
         public List<ShoppingCartItem> GetShoppingCartItems()
         {
+            /*SELECT *
+            FROM ShoppingCartItem JOIN Movie ON ShoppingCartItem.ShoppingCartId = Movie.ShoppingCartId;*/
             return ShoppingCartItems ?? (ShoppingCartItems = _context.ShoppingCartItems
                 .Where(n => n.ShoppingCartId == ShoppingCartId)
                 .Include(n => n.Movie)
                 .ToList());
         }
 
-        //get the shopping cart total
         public double GetShoppingCartTotal()
         {
             var total = _context.ShoppingCartItems
@@ -87,6 +87,13 @@ namespace eTickets.Data.Cart
                 .Select(n => n.Movie.Price * n.Amount)
                 .Sum();
             return total;
+        }
+
+        public async Task ClearShoppingCartAsync()
+        {
+            var items = _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).ToList();
+            _context.ShoppingCartItems.RemoveRange(items);
+            await _context.SaveChangesAsync();
         }
     }
 }

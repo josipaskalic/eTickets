@@ -27,7 +27,7 @@
                             <b>Cinema: </b>
                             <a asp-controller="Cinemas" asp-action="Details" asp-route-id="@Model.CinemaId">
                                 @Model.Cinema.Name
-                            </a> 
+                            </a>
                         </p>
                         <p class="card-text">
                             <b>Producer: </b>
@@ -60,7 +60,7 @@
                                 @foreach (var actor in Model.Actors_Movies)
                                 {
                                     <div class="column text-center">
-                                        <img class="border-info rounded-circle" src="@actor.Actor.ProfilePictureURL" style="max-width: 150px"/>
+                                        <img class="border-info rounded-circle" src="@actor.Actor.ProfilePictureURL" style="max-width: 150px" />
                                         <br />
                                         <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.ActorId">@actor.Actor.FullName</a>
                                     </div>
@@ -74,9 +74,15 @@
                     <div class="card-footer ">
                         <p class="card-text">
                             <a class="btn btn-outline-primary float-right" asp-action="Index">
-                                    Back to List
-                                </a>
-                            <a class="btn btn-success text-white" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id"><i class="bi bi-cart-plus" ></i> Add to Cart (Price @Model.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")))</a>
+                                Back to List
+                            </a>
+                            <a class="btn btn-success text-white @((DateTime.Now > Model.EndDate) ? "disabled" : "")"
+                               asp-controller="Orders"
+                               asp-action="AddItemToShoppingCart"
+                               asp-route-id="@Model.Id">
+                                <i class="bi bi-cart-plus"></i>
+                                Add to Cart (Price @Model.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")))
+                            </a>
                         </p>
                     </div>
                 </div>

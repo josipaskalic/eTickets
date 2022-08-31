@@ -1,4 +1,4 @@
-﻿@model PaginatedList<Movie>
+﻿@model IEnumerable<Movie>
 
 @{
     ViewData["Title"] = "List of Movies";
@@ -55,20 +55,16 @@
                     <div class="col-md-12">
                         <div class="card-footer ">
                             <p class="card-text">
-                                <a class="btn btn-outline-primary float-left" asp-controller="Movies" asp-action="Details" asp-route-id="@item.Id">
+                                <a class="btn btn-outline-primary float-right" asp-controller="Movies" asp-action="Details" asp-route-id="@item.Id">
                                     <i class="bi bi-eye-fill"></i> Show Details
                                 </a>
-                                <span style="padding:30px;"></span>
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    <a class="btn btn-success text-white @((DateTime.Now > item.EndDate) ? "disabled" : "")"
-                                           asp-controller="Orders"
-                                           asp-action="AddItemToShoppingCart"
-                                           asp-route-id="@item.Id">
-                                        <i class="bi bi-cart-plus"></i>
-                                        Add to Cart (Price @item.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")))
-                                    </a>
-                                }
+                                <a class="btn btn-success text-white @((DateTime.Now > item.EndDate) ? "disabled" : "")" 
+                                    asp-controller="Orders" 
+                                    asp-action="AddItemToShoppingCart" 
+                                    asp-route-id="@item.Id">
+                                    <i class="bi bi-cart-plus"></i> 
+                                    Add to Cart (Price @item.Price.ToString("C", new System.Globalization.CultureInfo("fr-FR")))
+                                </a>
                             </p>
                         </div>
                     </div>
@@ -78,21 +74,4 @@
     }
 </div>
 
-
-@{
-    var prevDisable = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisable = !Model.HasNextPage ? "disabled" : "";
-}
-
-<a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" class="btn btn-default @prevDisable">
-    Previous
-</a>
-<a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" class="btn btn-default @nextDisable">
-    Next
-</a>
-<div classs="row float-right">
-    @await Html.PartialAsync("_CreateItem", "Movies")
-</div>
-
-
-
+@await Html.PartialAsync("_CreateItem", "Movies")

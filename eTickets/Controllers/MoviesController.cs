@@ -23,26 +23,29 @@ namespace eTickets.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
+            int pageSize = 3;
+
             var allMovies = await _service.GetAllAsync(n => n.Cinema);
-            return View(allMovies);
+            return View(PaginatedList<Movie>.Create(allMovies,
+                pageNumber ?? 1, pageSize ));
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> Filter(string searchString)
         {
-            var allMovies = await _service.GetAllAsync(n => n.Cinema);
+            var allMovies = await _service.GetAllsAsync(n => n.Cinema);
 
             if(!string.IsNullOrEmpty(searchString))
             {
                 var filteredResult = allMovies.Where(n =>
                                                     n.Name.ToLower().Contains(searchString.ToLower()) || 
                                                     n.Description.ToLower().Contains(searchString.ToLower())).ToList();
-                return View("Index", filteredResult);
+                return View("Index1", filteredResult);
             }
 
-            return View("Index", allMovies);
+            return View("Index1", allMovies);
         }
 
         //GET: Movies/Details/1
